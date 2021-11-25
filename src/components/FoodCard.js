@@ -13,8 +13,8 @@ import FoodImage from '../assets/food1.png';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-const FoodCard = () => {
-  return <Card sx={{ maxWidth: 345 , maxHeight: 360}}>
+const FoodCard = ({foodName}) => {
+  return <Card sx={{ maxWidth: 345 , maxHeight: 310}}>
   <CardMedia
     component="img"
     height="194"
@@ -22,10 +22,8 @@ const FoodCard = () => {
     alt="Paella dish"
   />
   <CardContent>
-    <Typography variant="body2" color="text.secondary">
-      This impressive paella is a perfect party dish and a fun meal to cook
-      together with your guests. Add 1 cup of frozen peas along with the mussels,
-      if you like.
+    <Typography variant="h6" color="text.secondary">
+      {foodName}
     </Typography>
     <Stack marginTop={1.4} direction="column">
       <Button variant="contained">Order</Button>

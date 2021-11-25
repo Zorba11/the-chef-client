@@ -19,6 +19,9 @@ const SideBar = () => {
         bgcolor: 'background.paper',
       }}
     >
+    <ListItem>
+        <h2>Items in Cart: </h2>
+      </ListItem>
       <ListItem>
         <h2>Chef Status: </h2>
       </ListItem>
