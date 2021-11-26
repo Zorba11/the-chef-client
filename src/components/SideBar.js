@@ -9,8 +9,12 @@ import WorkIcon from '@mui/icons-material/Work';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import Divider from '@mui/material/Divider';
 import ProgressNotifier from './ProgressNotifier';
+import { useRecoilValue } from 'recoil';
+import { cartItemsState } from '../atoms/CartItemsState';
 
 const SideBar = () => {
+  const itemsInCart = useRecoilValue(cartItemsState);
+
   return (
     <List
       sx={{
@@ -21,6 +25,13 @@ const SideBar = () => {
     >
     <ListItem>
         <h2>Items in Cart: </h2>
+        {itemsInCart ? (
+          <ul>
+          {itemsInCart.map(item => (
+              <li>{item.foodName}</li>
+          ))}
+          </ul>
+        ) : <h3>No items</h3>}
       </ListItem>
       <ListItem>
         <h2>Chef Status: </h2>
@@ -31,7 +42,11 @@ const SideBar = () => {
       </ListItem>
       <Divider component="li" />
       <ListItem>
-      <ProgressNotifier/>
+       Gathering Time: 
+      </ListItem>
+      <Divider component="li" />
+      <ListItem>
+       Cooking Time: 
       </ListItem>
     </List>
   );

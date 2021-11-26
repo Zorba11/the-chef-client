@@ -6,12 +6,16 @@ import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import CheckIcon from '@mui/icons-material/Check';
 import OutdoorGrillIcon from '@mui/icons-material/OutdoorGrill';
+import { useRecoilValue } from 'recoil';
+import { cartItemsState } from '../atoms/CartItemsState';
 
 
 const ProgressNotifier = () => {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
+
+  const itemsInCart = useRecoilValue(cartItemsState);
 
   const buttonSx = {
     ...(success && {
@@ -29,13 +33,32 @@ const ProgressNotifier = () => {
   }, []);
 
   const handleButtonClick = () => {
-    if (!loading) {
+    if (!loading && itemsInCart.length > 0) {
       setSuccess(false);
       setLoading(true);
+
+      (async () => {
+          const rawResponse = await fetch('http://localhost:8090/api/v1/order', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              "itemsToPrepare": itemsInCart,
+              "hasIngredientsGathered": false
+            })
+          });
+          const content = await rawResponse.json();
+      })();
+
+
       timer.current = window.setTimeout(() => {
         setSuccess(true);
         setLoading(false);
       }, 2000);
+
+
     }
   };
 
@@ -71,7 +94,7 @@ const ProgressNotifier = () => {
           onClick={handleButtonClick}
         >
             {
-              success ? 'ready' : 'cook'
+              success ? 'ready' : 'place order'
             }
         </Button>
         {loading && (

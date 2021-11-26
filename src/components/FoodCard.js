@@ -12,8 +12,19 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FoodImage from '../assets/food1.png';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { useRecoilState } from 'recoil';
+import { cartItemsState } from '../atoms/CartItemsState';
 
-const FoodCard = ({foodName}) => {
+const FoodCard = ({menu, foodName}) => {
+  const [cartItems, setCartItems] = useRecoilState(cartItemsState);
+
+  const addToCart = () => {
+    setCartItems((oldCartItems) => [
+      ...oldCartItems,
+      menu
+    ]);
+  }
+
   return <Card sx={{ maxWidth: 345 , maxHeight: 310}}>
   <CardMedia
     component="img"
@@ -26,7 +37,7 @@ const FoodCard = ({foodName}) => {
       {foodName}
     </Typography>
     <Stack marginTop={1.4} direction="column">
-      <Button variant="contained">Order</Button>
+      <Button onClick={addToCart} variant="contained">Order</Button>
     </Stack>
   </CardContent>
 </Card>
