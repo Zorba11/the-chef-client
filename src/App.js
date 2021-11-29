@@ -1,35 +1,28 @@
 import "./App.css";
 import Home from "./pages/Home";
-import { RecoilRoot } from 'recoil';
-import SockJsClient from 'react-stomp';
+import { RecoilRoot, useRecoilState } from 'recoil';
 import { useState } from "react";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { deepOrange } from '@mui/material/colors';
+import {chefStatusState} from './atoms/ChefStatusState';
 
-const SOCKET_URL = 'http://localhost:8090/chef-socket';
+const theme = createTheme({
+  palette: {
+    primary: deepOrange
+  },
+});
 
 function App() {
-  const [message, setMessage] = useState('You server message here.');
-  let onConnected = () => {
-    console.log("Connected!!")
-  }
-
-  let onMessageReceived = (msg) => {
-    setMessage(msg.message);
-  }
-
+  // const [message, setMessage] = useState('You server message here.');
   return (
+    
+    <ThemeProvider theme={theme}>
     <div className="App">
     <RecoilRoot>
-    <SockJsClient
-        url={SOCKET_URL}
-        topics={['/topic/message']}
-        onConnect={onConnected}
-        onDisconnect={console.log("Disconnected!")}
-        onMessage={msg => onMessageReceived(msg)}
-        debug={false}
-      />
       <Home />
-    </RecoilRoot>
+      </RecoilRoot>
     </div>
+    </ThemeProvider>
     
   );
 }

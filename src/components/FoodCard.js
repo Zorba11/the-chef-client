@@ -19,6 +19,7 @@ const FoodCard = ({menu, foodName}) => {
   const [cartItems, setCartItems] = useRecoilState(cartItemsState);
 
   const addToCart = () => {
+
     setCartItems((oldCartItems) => [
       ...oldCartItems,
       menu
